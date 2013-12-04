@@ -7,7 +7,7 @@ More informations => xxx
 
 INSTALLATION
 
-1) Download => https://github.com/weagruena/SystemPath/blob/master/dist/SystemPath.zip.rename
+1) Download => https://github.com/weagruena/SystemPath/blob/master/dist/SystemPath.zip.rename?raw=true
 
 2) Rename / remove extension ".rename"  ==> Unzip archive (zip)
 
