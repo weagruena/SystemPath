@@ -1,0 +1,321 @@
+
+REG Befehl [Parameterliste]
+
+
+
+  Befehl  [ QUERY   | ADD    | DELETE  | COPY    |
+
+            SAVE    | LOAD   | UNLOAD  | RESTORE |
+
+            COMPARE | EXPORT | IMPORT  | FLAGS ]
+
+
+
+RÅckgabecode: (Mit Ausnahme von REG COMPARE)
+
+
+
+  0 - Erfolgreich
+
+  1 - Fehlgeschlagen
+
+
+
+Geben Sie Folgendes ein, um die Hilfe fÅr einen Befehl anzuzeigen:
+
+
+
+  REG Befehl /?
+
+
+
+Beispiele:
+
+
+
+  REG QUERY /?
+
+  REG ADD /?
+
+  REG DELETE /?
+
+  REG COPY /?
+
+  REG SAVE /?
+
+  REG RESTORE /?
+
+  REG LOAD /?
+
+  REG UNLOAD /?
+
+  REG COMPARE /?
+
+  REG EXPORT /?
+
+  REG IMPORT /?
+
+  REG FLAGS /?
+
+##########################################################################
+
+REG QUERY SchlÅssel [/v [Wert] | /ve] [/s]
+          [/f Daten [/k] [/d] [/c] [/e]] [/t Typ] [/z] [/se Trennzeichen]
+
+  SchlÅssel [\\Computer\]Vollst. SchlÅssel
+            Computer - Remotecomputer ohne Standardeinstellungen des
+                       aktuellen Computers. Nur HKLM und HKU sind auf
+                       Remotecomputern verfÅgbar
+            Vollst. SchlÅssel - im Format STAMMSCHLöSSEL\UnterschlÅssel
+                 STAMMSCHLöSSEL - [ HKLM | HKCU | HKCR | HKU | HKCC ]
+                 UnterschlÅssel - Vollst. Name eines Registrierungs-
+                                  schlÅssels unter dem STAMMSCHLöSSEL
+
+  /v       Fragt einen bestimmten RegistrierungsschlÅssel ab. Bei
+           Auslassung werden alle Werte unter dem SchlÅssel abgefragt.
+
+           Das Argument fÅr diese Option ist nur mit Angabe der Option
+           /f optional. Hiermit wird nur in den Wertnamen gesucht.
+
+  /ve      Fragt den Standardwert oder leeren Wertnamen ab (Standard).
+
+  /s       Fragt alle UnterschlÅssel und Werte rekursiv ab (wie dir /s).
+
+  /se      Bestimmt Trennzeichen (nur 1 Zeichen) fÅr die Datenzeichenfolge
+           REG_MULTI_SZ. Legt das Trennzeichen als Standardwert "\0" fest.
+
+  /f       Bestimmt die zu suchenden Daten bzw. Muster.
+           AnfÅhrungszeichen verwenden, falls in der Zeichenfolge 
+           Leerzeichen vorhanden sind. Standard ist "*".
+
+  /k       Gibt an, dass nur in SchlÅsselnamen gesucht werden soll.
+
+  /d       Gibt an, dass nur in Daten gesucht werden soll.
+
+  /c       Gibt an, dass bei der Suche die Gro·-/Kleinschreibung beachtet
+           werden soll. Bei der Suche wird standardmÑ·ig nicht zwischen
+           Gro·-/Kleinschreibung unterschieden.
+
+  /e       Gibt an, dass nur genaue öbereinstimmungen zurÅckgegeben werden.
+           StandardmÑ·ig werden alle öbereinstimmungen zurÅckgegeben.
+
+  /t       Gibt den Registrierungswert-Datentyp an.
+           GÅltige Typen:
+             REG_SZ, REG_MULTI_SZ, REG_EXPAND_SZ,
+             REG_DWORD, REG_BINARY, REG_NONE
+           StandardmÑ·ig werden alle Typen verwendet.
+
+  /z       AusfÅhrlich: Zeigt das numerische équivalent fÅr den Typ von
+           Wertname an.
+
+Beispiele:
+
+  REG QUERY HKLM\Software\Microsoft\ResKit /v Version
+    Zeigt den Wert des Registrierungswerts VERSION an
+
+  REG QUERY \\ABC\HKLM\Software\Microsoft\ResKit\Nt\Setup /s
+    Zeigt alle untergeordneten SchlÅssel und Werte unter dem
+
+    RegistrierungsschlÅssel SETUP auf dem Remotecomputer ABC
+
+    an
+
+  REG QUERY HKLM\Software\Microsoft\ResKit\Nt\Setup /se #
+    Zeigt alle UnterschlÅssel und Werte mit  "#" als Trennzeichen
+    fÅr alle Werte an, dessen Typ REG_MULTI_SZ lautet.
+
+  REG QUERY HKLM /f SYSTEM /t REG_SZ /c /e
+    Zeigt SchlÅssel, Wert und Daten mit Gro·-/Kleinschreibung und
+    genauen Instanzen von "SYSTEM" unter dem HKLM-Stamm fÅr
+    den Datentyp REG_SZ an
+
+  REG QUERY HKCU /f 0F /d /t REG_BINARY
+    Zeigt SchlÅssel, Wert und Daten fÅr Instanzen von "0F" in den Daten
+    unter dem HKCU-Stamm fÅr den Datentyp REG_BINARY an
+
+  REG QUERY HKLM\SOFTWARE /ve 
+    Zeigt Wert und Daten fÅr den leeren Wert (Standard)
+    unter HKLM\SOFTWARE an
+
+##########################################################################
+
+REG ADD SchlÅssel [/v Wert | /ve] [/t Typ] [/s Trennzeichen] [/d Daten] [/f]
+
+ SchlÅssel [\\Computer\]Vollst.SchlÅssel
+           Computer         Name des Remotecomputers - ohne
+                            Standardeinstellungen des aktuellen
+                            Computers. Nur HKLM und HKU sind auf den
+                            Remotecomputern verfÅgbar.
+           Vollst.SchlÅssel STAMMSCHLöSSEL\UnterschlÅssel
+           STAMMSCHLöSSEL   [ HKLM | HKCU | HKCR | HKU | HKCC ]
+           UnterschlÅssel   Vollst. Name eines RegistrierungsschlÅssels
+                            unter dem ausgewÑhlten STAMMSCHLöSSEL.
+
+  /v       HinzuzufÅgender Wert unter dem ausgewÑhlten SchlÅssel.
+
+  /ve      FÅgt einen leeren Wert fÅr den SchlÅssel hinzu (Standard).
+
+  /t       Datentypen fÅr RegistrierungsschlÅssel
+            [ REG_SZ    | REG_MULTI_SZ | REG_EXPAND_SZ |
+             REG_DWORD | REG_QWORD    | REG_BINARY    | REG_NONE ]
+           Bei Auslassung wird REG_SZ angenommen.
+
+  /s       Gibt ein Zeichen an, das als Trennzeichen in der
+           Datenzeichenfolge fÅr REG_MULTI_SZ verwendet wird. Bei
+           Auslassung wird "\0" als Trennzeichen verwendet.
+
+  /d       Zuzuordnende Daten fÅr den hinzuzufÅgenden Registrierungswert.
+
+  /f       Erzwingt das öberschreiben des vorhandenen Registrierungs-
+           eintrags.
+
+Beispiele:
+
+  REG ADD \\ABC\HKLM\Software\MyCo
+    FÅgt den SchlÅssel HKLM\Software\MyCo zu Remotecomputer ABC hinzu.
+
+  REG ADD HKLM\Software\MyCo /v Data /t REG_BINARY /d fe340ead
+    FÅgt einen Wert hinzu (Name: Data, Typ: REG_BINARY, Daten: fe340ead).
+
+  REG ADD HKLM\Software\MyCo /v MRU /t REG_MULTI_SZ /d fax\0mail
+    FÅgt Wert hinzu (Name: MRU, Typ: REG_MUTLI_SZ, Daten: fax\0mail\0\0)
+
+  REG ADD HKLM\Software\MyCo /v Path /t REG_EXPAND_SZ /d ^%systemroot^%
+    FÅgt einen Wert hinzu (Name: Path, Typ: REG_EXPAND_SZ, Daten:
+    %systemroot%).
+    Hinweis: Verwenden Sie das Caret-Symbol ( ^ ) innerhalb der
+    Erweiterungszeichenfolge.
+
+##########################################################################
+
+REG DELETE SchlÅssel [/v Wert | /ve | /va] [/f]
+
+  SchlÅssel         [\\Computer\]Vollst.SchlÅssel
+   Computer         Remotecomputer; ohne Standardeinstellungen des
+                    Computers. Nur HKLM und HKU sind verfÅgbar.
+   Vollst.SchlÅssel STAMMSCHLöSSEL\UnterschlÅssel
+   STAMMSCHLöSSEL   [ HKLM | HKCU | HKCR | HKU | HKCC ]
+   UnterschlÅssel   Vollst. Name des RegistrierungsschlÅssels unter dem
+                    STAMMSCHLöSSEL.
+
+  Wert              Der zu lîschende Wert unter dem SchlÅssel. Lîscht alle
+                    SchlÅssel und Werte bei Auslassung.
+
+  /ve               Lîscht den Wert des leeren Werts <Standard>.
+
+  /va               Lîscht alle Werte unter dem SchlÅssel.
+
+  /f                Erzwingt das Lîschen.
+
+Beispiele:
+
+  REG DELETE HKLM\Software\MyCo\MyApp\Timeout
+    Lîscht das RegistrierungsschlÅsselzeitlimit und dessen
+    untergeordneten SchlÅssel und Werte.
+
+  REG DELETE \\ZODIAC\HKLM\Software\MyCo /v MTU
+    Lîscht den Wert MTU unter MyCo auf ZODIAC.
+
+##########################################################################
+
+REG EXPORT SchlÅssel Datei[/y]
+
+  SchlÅssel         STAMMSCHLöSSEL[\UnterschlÅssel] (nur lokaler Computer).
+    STAMMSCHLöSSEL  [ HKLM | HKCU | HKCR | HKU | HKCC ]
+    UnterschlÅssel  Vollst. Name eines RegistrierungsschlÅssels unter dem
+                    STAMMSCHLöSSEL.
+
+  Datei             Name der zu exportierenden DatentrÑgerdatei..
+
+  /y                Erzwingt das öberschreiben der vorhandenen Datei ohne
+                    Aufforderung.
+
+Beispiele:
+
+  REG EXPORT HKLM\Software\MyCo\MyApp AppBkUp.reg
+    Exportiert alle untergeordnete SchlÅssel und Werte des SchlÅssels
+    MyApp in die Datei AppBkUp.reg
+
+##########################################################################
+
+REG IMPORT Datei
+
+  Datei  Name der zu importierenden DatentrÑgerdatei (nur lokaler Computer).
+
+Beispiele:
+
+  REG IMPORT AppBkUp.reg
+    Importiert RegstrierungseintrÑge aus der Datei AppBkUp.reg.
+
+##########################################################################
+
+REG LOAD SchlÅssel Datei
+
+  SchlÅssel       STAMMSCHLöSSEL\UnterschlÅssel (nur lokaler Computer)
+   STAMMSCHLöSSEL [ HKLM | HKU ]
+   UnterschlÅssel Name des SchlÅssels, in dem die Struktur geladen werden
+                  soll. Erstellt einen neuen SchlÅssel.
+
+  Datei           Name der zu ladenden Strukturdatei. REG SAVE muss zum
+                  Erstellen dieser Datei verwendet werden.
+
+Beispiele:
+
+  REG LOAD HKLM\TempHive TempHive.hiv
+    LÑdt die Datei in den SchlÅssel HKLM\TempHive.
+
+##########################################################################
+
+REG SAVE SchlÅssel Datei [/y]
+
+  SchlÅssel        STAMMSCHLöSSEL\UnterschlÅssel
+   STAMMSCHLöSSEL  [ HKLM | HKCU | HKCR | HKU | HKCC ]
+   UnterschlÅssel  Vollst. Name eines RegistrierungsschlÅssels
+                   unter dem STAMMSCHLöSSEL.
+
+  Datei            Name der zu speichernden DatentrÑgerdatei. Ohne
+                   Pfadangabe wird die Datei im aktuellen Ordner des
+                   aufzurufenden Prozesses erstellt.
+
+  /y               Erzwingt das Au·erkraftsetzen der bestehenden Datei ohne
+                   Aufforderung.
+
+Beispiele:
+
+  REG SAVE HKLM\Software\MyCo\MyApp AppBkUp.hiv
+    Speichert die Struktur MyApp in die Datei AppBkUp.hiv im aktuellen
+    Ordner.
+
+##########################################################################
+
+REG RESTORE SchlÅssel Datei
+
+  SchlÅssel        STAMMSCHLöSSEL\\UnterschlÅssel (nur lokaler Computer)
+    STAMMSCHLöSSEL [ HKLM | HKCU | HKCR | HKU | HKCC ]
+    UnterschlÅssel Vollst. Name des RegistrierungsschlÅssels, in dem
+                   die Strukturdatei wiederhergestellt werden soll.
+                   öberschreibt die vorhandenen Werte und untergeordneten
+                   Werte des SchlÅssels.
+
+  Datei            Name der wiederherzustellenden Strukturdatei.
+                   REG SAVE muss zum Erstellen dieser Datei verwendet
+                   werden.
+
+Beispiele:
+
+  REG RESTORE HKLM\\Software\\Microsoft\\ResKit NTRKBkUp.hiv
+    Stellt die Datei NTRKBkUp.hiv her und Åberschreibt den SchlÅssel
+    ResKit.
+
+##########################################################################
+
+REG UNLOAD SchlÅssel
+
+  SchlÅssel       STAMMSCHLöSSEL\UnterschlÅssel (nur lokaler Computer)
+   STAMMSCHLöSSEL [ HKLM | HKU ]
+   UnterschlÅssel SchlÅsselname der zu entfernenden Struktur.
+
+Beispiele:
+
+  REG UNLOAD HKLM\TempHive
+    Entfernt die Struktur TempHive in HKLM.

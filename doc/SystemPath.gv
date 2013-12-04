@@ -1,0 +1,14 @@
+digraph G {
+A [label="SystemPath", shape=box, fontsize=24, style=filled, color=limegreen]
+C [label="Append (a)\n <folder>"]
+D [label="Backup (b)"]
+E [label="Restore (r)"]
+F [label="SystemPath.ini", shape=box, style=filled, color=khaki2]
+
+A -> C [label=" extra parameter:\n folder (to append)"]
+A -> D
+A -> E
+D -> F
+F -> E
+{rank=same C D E}
+}

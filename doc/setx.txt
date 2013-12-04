@@ -1,0 +1,115 @@
+
+SetX hat drei verschiedene AusfÅhrungsmethoden: 
+
+Syntax 1:
+    SETX [/S System [/U [DomÑne\]Benutzer [/P [Kennwort]]]] var Wert [/M]
+
+Syntax 2:
+    SETX [/S System [/U [DomÑne\]Benutzer [/P [Kennwort]]]] var /K
+         Registrierungspfad [/M]
+
+Syntax 3:
+    SETX [/S System [/U [DomÑne\]Benutzer [/P [Kennwort]]]]
+         /F Datei {var {/A x,y | /R x,y Zeichenfolge}[/M] | /X}
+         [/D Trennzeichen]
+
+Beschreibung:
+  Erstellt oder bearbeitet Umgebungsvariablen in der Benutzer- oder
+  Systemumgebung. Ermîglicht das Festlegen von Variablen, die auf
+  Argumenten, RegistrierungsschlÅsseln oder Dateieingabe basieren.
+
+Parameterliste:
+  /S    System             Remotesystem fÅr die Verbindungsherstellung.
+
+  /U    [DomÑne\]Benutzer  Bestimmt den Benutzerkontext, unter dem
+                           der Befehl ausgefÅhrt wird.
+
+  /P    [Kennwort]         Bestimmt das Kennwort fÅr den
+                           Auslassung fordert zur Kennworteingabe auf.
+
+  Variable                 Bestimmt die zu setzende Umgebungsvariable.
+
+  Wert                     Bestimmt einen zu setzenden Wert 
+                           fÅr die Umgebungsvariablen.
+
+  /K    Registrierungspfad Bestimmt, dass die Variable auf Informationen
+                           aus einem RegistrierungsschlÅssel basiert.
+                           GÅltiges Pfadformat:
+                           Struktur\SchlÅssel\...\Wert, z. B.
+                           HKEY_LOCAL_MACHINE\System\CurrentControlSet\
+                           Control\TimeZoneInformation\StandardName.
+
+  /F    Datei              Bestimmt den Dateinamen der zu verwendenden
+                           Textdatei.
+
+  /A    x,y                Bestimmt die absoluten Dateikoordinaten
+                           (Zeile X, Element Y) als Parameter, nach denen
+                           innerhalb der Datei gesucht werden soll.
+
+  /R    x,y Zeichenfolge   Bestimmt die relativen Dateikoordinaten im
+                           VerhÑltnis zur "Zeichenfolge" als Suchparameter.
+
+  /M                       Legt fest, dass die Variable in der
+                           systemÅbergreifenden Umgebung
+                           (HKEY_LOCAL_MACHINE) gesetzt werden. Der
+                           Standardwert wird unter der Umgebung gesetzt
+                           (HKEY_CURRENT_USER).
+
+  /X                       Zeigt Dateiinhalte mit den x,y Koordinaten an.
+
+  /D    Trennzeichen       Bestimmt zusÑtzliche Trennzeichen, wie z. B.
+                           "," oder "\". Standardtrennzeichen sind
+                           Leerzeichen, Tabulator, WagenrÅcklauf und
+                           Zeilenvorschub. Beliebige ASCII-Zeichen kînnen
+                           als zusÑtzliche Trennzeichen verwendet
+                           werden. Die max. Anzahl an Trennzeichen,
+                           einschlie·lich Standardtrennzeichen betrÑgt 15.
+
+  /?                       Zeigt diese Hilfe an.
+
+HINWEIS: 1) SETX schreibt Variablen in die Åbergeordnete Umgebung
+            in der Registrierung.
+
+         2) Auf einem lokalen System sind Variablen, die mit
+            diesem Programm erstellt oder bearbeitet wurden,
+            erst in zukÅnftigen und nicht in aktuellen
+            cmd.exe Befehlszeilenfenstern verfÅgbar.
+
+         3) Auf einem Remotesystem sind Variablen, die mit
+            diesem Programm erstellt oder bearbeitet wurden, erst
+            bei der nÑchsten Anmeldesitzung verfÅgbar.
+
+         4) GÅltige RegistrierungsschlÅssel-Datentypen:
+            REG_DWORD, REG_EXPAND_SZ, REG_SZ, REG_MULTI_SZ
+
+         5) UnterstÅtzte Registrierungsstrukturen: HKEY_LOCAL_MACHINE (HKLM),
+            HKEY_CURRENT_USER (HKCU).
+
+         6) Bei Trennzeichen wird zwischen Gro·-/Kleinschreibung
+            unterschieden.
+
+         7) REG_DWORD-Werte werden aus der Registrierung 
+            im Dezimalformat extrahiert.
+
+Beispiele:
+    SETX MACHINE COMPAQ 
+    SETX MACHINE "COMPAQ COMPUTER" /M
+    SETX MYPATH "%PATH%"
+    SETX MYPATH ~PATH~
+    SETX /S System /U Benutzer /P Kennwort MACHINE COMPAQ 
+    SETX /S System /U Benutzer /P Kennwort MYPATH ^%PATH^% 
+    SETX TZONE /K HKEY_LOCAL_MACHINE\System\CurrentControlSet\
+         Control\TimeZoneInformation\StandardName
+    SETX BUILD /K "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows
+         NT\CurrentVersion\CurrentBuildNumber" /M
+    SETX /S System /U Benutzer /P Kennwort TZONE /K HKEY_LOCAL_MACHINE\
+         System\CurrentControlSet\Control\TimeZoneInformation\
+         StandardName
+    SETX /S System /U Benutzer /P Kennwort BUILD /K 
+         "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\
+         CurrentVersion\CurrentBuildNumber" /M
+    SETX /F ipconfig.out /X 
+    SETX IPADDR /F ipconfig.out /A 5,11 
+    SETX OCTET1 /F ipconfig.out /A 5,3 /D "#$*." 
+    SETX IPGATEWAY /F ipconfig.out /R 0,7 Gateway
+    SETX /S System /U Benutzer /P Kennwort /F c:\ipconfig.out /X

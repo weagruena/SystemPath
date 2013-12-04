@@ -1,0 +1,15 @@
+
+
+
+DOCUMENTATION (Source)
+=========================
+
+Project: SystemPath
+
+Folder: g:/_PROJECTS/Ruby/SystemPath/src
+
+Status: 04.12.2013
+
+------------------------------------------------------------------
+SystemPath.ini	04.12.2013 14:12	---
+SystemPath.rb	04.12.2013 15:15	# SystemPath
